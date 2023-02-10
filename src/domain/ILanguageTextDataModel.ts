@@ -2,8 +2,7 @@
  * 언어별 텍트스
  *
  */
-export interface ILanguageTextDataModel{
-
+export interface ILanguageTextDataModel {
     /**
      * 언어별 텍스트의 언어 구분값<br><br>
      *

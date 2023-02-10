@@ -1,5 +1,5 @@
-import {IPosition} from "./IPosition";
-import {DirectionType} from "./DirectionType";
+import { IPosition } from './IPosition';
+import { DirectionType } from './DirectionType';
 
 export interface ILocation {
     position: IPosition | null;

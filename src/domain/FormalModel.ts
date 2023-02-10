@@ -1,10 +1,8 @@
-import {IPosition} from "./IPosition";
-import {ISize} from "./ISize";
-import {ICoordinate} from "./ICoordinate";
+import { IPosition } from './IPosition';
+import { ISize } from './ISize';
+import { ICoordinate } from './ICoordinate';
 
 export interface FormalModel {
-
-
     /** 아이디 **/
     id: string;
 
@@ -37,6 +35,4 @@ export interface FormalModel {
      * 진입 가능 여부
      */
     passable: boolean | false;
-
 }
-

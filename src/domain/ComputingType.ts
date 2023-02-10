@@ -4,5 +4,5 @@ export enum ComputingType {
     STAIRS = 'stairs',
     ESCALATOR = 'escalator',
     ELEVATOR = 'elevator',
-    OTHER = 'other'
+    OTHER = 'other',
 }

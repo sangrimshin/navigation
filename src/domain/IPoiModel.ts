@@ -1,12 +1,10 @@
-import {ICoordinate} from "./ICoordinate";
-import {IPosition} from "./IPosition";
-import {ISize} from "./ISize";
-import {IPoiDisplayTypeDataModel} from "./IPoiDisplayTypeDataModel";
-import {ILanguageTextDataModel} from "./ILanguageTextDataModel";
+import { ICoordinate } from './ICoordinate';
+import { IPosition } from './IPosition';
+import { ISize } from './ISize';
+import { IPoiDisplayTypeDataModel } from './IPoiDisplayTypeDataModel';
+import { ILanguageTextDataModel } from './ILanguageTextDataModel';
 
-
-export interface IPoiDataModel{
-
+export interface IPoiDataModel {
     id: string;
 
     /** 맵 아이디 **/
@@ -61,5 +59,4 @@ export interface IPoiDataModel{
      * 앵커 위치
      */
     anchor: ICoordinate;
-
 }

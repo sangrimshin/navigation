@@ -1,5 +1,5 @@
+import { VectorUtils } from '../manager/VectorUtils';
 import { ILocation } from './ILocation';
-import { VectorUtils } from '../manager-/VectorUtils';
 
 export class NavigationResponse {
     locations: ILocation[];
@@ -15,6 +15,10 @@ export class NavigationResponse {
         this.totalDistance = 0;
         this.totalTime = 0;
         this.pathInfo = [];
+    }
+
+    getPathInfo(): ILocation[] {
+        return this.pathInfo;
     }
 
     getOrigin(): ILocation {

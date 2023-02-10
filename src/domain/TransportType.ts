@@ -1,5 +1,5 @@
 export enum TransportType {
-    ELEVATOR = 'elevator'
-    ,ESCALATOR = 'escalator'
-    ,STAIRS = 'stairs'
+    ELEVATOR = 'elevator',
+    ESCALATOR = 'escalator',
+    STAIRS = 'stairs',
 }

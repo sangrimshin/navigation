@@ -1,10 +1,8 @@
-import {IPosition} from "./IPosition";
-import {ISize} from "./ISize";
-import {IFloorDataModel} from "./IFloorDataModel";
+import { IPosition } from './IPosition';
+import { ISize } from './ISize';
+import { IFloorDataModel } from './IFloorDataModel';
 
-
-export interface IMapInfoDataModel{
-
+export interface IMapInfoDataModel {
     /**
      * 아이디
      */
@@ -59,7 +57,5 @@ export interface IMapInfoDataModel{
     /**
      * y 축 방향
      */
-    yAxisDirection:number | 1;
-
-
+    yAxisDirection: number | 1;
 }
