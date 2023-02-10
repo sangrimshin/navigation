@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { fetchmap } from './manager/network';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 
@@ -12,7 +11,6 @@ app.get('/', (req: Request, res: Response) => {
     //   console.log(req);
     console.log('received get command ');
     res.send('Hello JS World!');
-    fetchmap(3);
 });
 
 app.get('/api/user/:id', (req, res) => {
@@ -39,8 +37,8 @@ async function getMapAxios(token: string) {
     const response = await axios.get('https://api.dabeeomaps.com/v2/map?t=JS', {
         headers: { 'Content-Type': 'application/json', 'Authorization': token },
     });
-    const data = JSON.stringify(response.data);
-    console.log(data);
+    console.dir(response.data.payload);
+    // console.log(data);
 }
 
 app.listen(port, () => {
