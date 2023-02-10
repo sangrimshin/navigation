@@ -162,17 +162,13 @@ export abstract class NavigationManager {
             if (location.isDestination || floorIdx === 0) {
                 location.direction = direction;
                 newLocations.push(location); // 경유지노드는 심플리파이 될 수 없음
-            } else {
+            } else if (nextLocation?.floorId !== currentLocation?.floorId) {
                 // 0. 다음 노드가 층 이동되는 케이스라면
-                if (nextLocation?.floorId !== currentLocation?.floorId) {
-                    location.direction = null;
-                    newLocations.push(location); // 층간 이동되는 노드는 심플리파이 될 수 없음
-                } else {
-                    if (distance > 1 && angle > Constants.DIFF_DEGREE) {
-                        location.direction = direction;
-                        newLocations.push(location);
-                    }
-                }
+                location.direction = null;
+                newLocations.push(location); // 층간 이동되는 노드는 심플리파이 될 수 없음
+            } else if (distance > 1 && angle > Constants.DIFF_DEGREE) {
+                location.direction = direction;
+                newLocations.push(location);
             }
             floorIdx += 1;
         });

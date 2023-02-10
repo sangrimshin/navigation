@@ -106,21 +106,19 @@ export class DijkstraNavigationManager extends NavigationManager {
         result.pathInfo = pathInfo.reduce((acc, cur: ILocation, i) => {
             if (cur.transCode === null) {
                 acc.push(cur);
-            } else {
-                if (i > 0 && i < pathInfo.length - 1) {
-                    const from = pathInfo[i - 1];
-                    const to = pathInfo[i + 1];
+            } else if (i > 0 && i < pathInfo.length - 1) {
+                const from = pathInfo[i - 1];
+                const to = pathInfo[i + 1];
 
-                    const fromDistance = (VectorUtils._calcDistance(from.position!, cur.position!) * scaleCm) / 100; // 거리를 구해 m 단위로 환산
-                    const toDistance = (VectorUtils._calcDistance(cur.position!, to.position!) * scaleCm) / 100; // 거리를 구해 m 단위로 환산
+                const fromDistance = (VectorUtils._calcDistance(from.position!, cur.position!) * scaleCm) / 100; // 거리를 구해 m 단위로 환산
+                const toDistance = (VectorUtils._calcDistance(cur.position!, to.position!) * scaleCm) / 100; // 거리를 구해 m 단위로 환산
 
-                    if (from.transCode === cur.transCode && to.transCode === cur.transCode) {
-                        if (fromDistance > Constants.PATH_SIMPLIFY_DISTANCE || toDistance > Constants.PATH_SIMPLIFY_DISTANCE) {
-                            acc.push(cur);
-                        }
-                    } else {
+                if (from.transCode === cur.transCode && to.transCode === cur.transCode) {
+                    if (fromDistance > Constants.PATH_SIMPLIFY_DISTANCE || toDistance > Constants.PATH_SIMPLIFY_DISTANCE) {
                         acc.push(cur);
                     }
+                } else {
+                    acc.push(cur);
                 }
             }
             return acc;
@@ -137,11 +135,9 @@ export class DijkstraNavigationManager extends NavigationManager {
         result.locations = result.locations.reduce((arr, cur, i) => {
             if (cur.transCode === null) {
                 arr.push(cur);
-            } else {
-                if (i > 0 && i < result.locations.length - 1) {
-                    if (result.locations[i - 1].transCode !== cur.transCode || result.locations[i + 1].transCode !== cur.transCode) {
-                        arr.push(cur);
-                    }
+            } else if (i > 0 && i < result.locations.length - 1) {
+                if (result.locations[i - 1].transCode !== cur.transCode || result.locations[i + 1].transCode !== cur.transCode) {
+                    arr.push(cur);
                 }
             }
 
@@ -149,7 +145,7 @@ export class DijkstraNavigationManager extends NavigationManager {
         }, new Array<ILocation>());
 
         result.locations.forEach((location) => {
-            location.distance = location.distance * scaleCm;
+            location.distance *= scaleCm;
         });
 
         // 노드와 POI 연결
