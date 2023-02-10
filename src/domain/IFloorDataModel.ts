@@ -14,22 +14,22 @@ export interface IFloorDataModel {
      */
     id: string;
 
-    /** 맵 아이디 **/
+    /** 맵 아이디 */
     mapId: string;
 
-    /** 이름 **/
+    /** 이름 */
     name: ILanguageTextDataModel[] | [];
 
-    /** 지상 지하 **/
+    /** 지상 지하 */
     underFloor: boolean;
 
-    /** 메인 층 **/
+    /** 메인 층 */
     defaultYn: boolean;
 
-    /** 순서 **/
+    /** 순서 */
     order: number;
 
-    /** 레벨(1층부터 매겨지는 인덱스라고 보면 됨) **/
+    /** 레벨(1층부터 매겨지는 인덱스라고 보면 됨) */
     level: number;
 
     /**

@@ -8,10 +8,10 @@ export interface IMapInfoDataModel {
      */
     id: string;
 
-    /** 이름 **/
+    /** 이름 */
     name: string;
 
-    /** 메인 층 **/
+    /** 메인 층 */
     defaultFloorId: string;
 
     /**

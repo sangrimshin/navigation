@@ -10,7 +10,7 @@ import { IPosition } from '../domain/IPosition';
 import { VectorUtils } from './VectorUtils';
 import { ComputingType } from '../domain/ComputingType';
 
-let dijkstra = require('dijkstrajs');
+const dijkstra = require('dijkstrajs');
 
 export class DijkstraNavigationManager extends NavigationManager {
     graph: any;
@@ -28,7 +28,7 @@ export class DijkstraNavigationManager extends NavigationManager {
      */
     private _getPath(origin: string, destination: string): NavigationResponse {
         const nodeIds = new dijkstra.find_path(this.graph, origin, destination);
-        let locations: ILocation[] = this._convertRouteToLocations(nodeIds);
+        const locations: ILocation[] = this._convertRouteToLocations(nodeIds);
         locations.forEach((location, idx) => {
             if (location.transCode && location.floorId && location.floorId !== locations[idx + 1].floorId) {
                 locations[idx + 1].distance = 0;
@@ -74,24 +74,24 @@ export class DijkstraNavigationManager extends NavigationManager {
     getPath(locations: ILocation[]): NavigationResponse {
         locations.forEach((location) => this._floorDataManager._syncLocationAndPoi(location));
 
-        let scaleCm = super.getRequest().mapInfo.scaleCm;
+        const scaleCm = super.getRequest().mapInfo.scaleCm;
 
-        let optimalPath = this._getOptimalPath(locations);
+        const optimalPath = this._getOptimalPath(locations);
 
         let result = new NavigationResponse([]);
 
         optimalPath.forEach((waypoint, idx) => {
             if (idx < locations.length - 1) {
-                let origin = optimalPath[idx];
-                let destination = optimalPath[idx + 1];
-                let response = this._getPath(origin.nodeId, destination.nodeId);
-                response.locations.forEach((resLocation, idx) => {
+                const origin = optimalPath[idx];
+                const destination = optimalPath[idx + 1];
+                const response = this._getPath(origin.nodeId, destination.nodeId);
+                response.locations.forEach((resLocation, myIdx) => {
                     if (!resLocation.poiId) {
-                        if (idx === 0) {
+                        if (myIdx === 0) {
                             resLocation.poiId = origin.poiId;
                         }
 
-                        if (idx === response.locations.length - 1) {
+                        if (myIdx === response.locations.length - 1) {
                             resLocation.poiId = destination.poiId;
                         }
                     }
@@ -101,15 +101,15 @@ export class DijkstraNavigationManager extends NavigationManager {
             }
         });
 
-        let pathInfo = super.simplify(result.locations);
+        const pathInfo = super.simplify(result.locations);
 
         result.pathInfo = pathInfo.reduce((acc, cur: ILocation, i) => {
             if (cur.transCode === null) {
                 acc.push(cur);
             } else {
                 if (i > 0 && i < pathInfo.length - 1) {
-                    let from = pathInfo[i - 1];
-                    let to = pathInfo[i + 1];
+                    const from = pathInfo[i - 1];
+                    const to = pathInfo[i + 1];
 
                     const fromDistance = (VectorUtils._calcDistance(from.position!, cur.position!) * scaleCm) / 100; // 거리를 구해 m 단위로 환산
                     const toDistance = (VectorUtils._calcDistance(cur.position!, to.position!) * scaleCm) / 100; // 거리를 구해 m 단위로 환산
@@ -166,7 +166,7 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @private
      */
     private _getOptimalPath(locations: ILocation[]): ILocation[] {
-        let routes: ILocation[] = [];
+        const routes: ILocation[] = [];
         let origin = locations[0];
 
         for (let i = 0; i < locations.length - 1; i++) {
@@ -174,25 +174,22 @@ export class DijkstraNavigationManager extends NavigationManager {
                 origin = locations[i];
             }
             if (i < locations.length - 1) {
-                let destination = locations[i + 1];
+                const destination = locations[i + 1];
 
-                let nodeArrayFromOrigin: INodeDataModel[] | null;
-                let nodeArrayFromDestination: INodeDataModel[] | null;
+                // 출발지 위치에서 최적화된 노드 배열 추출 (오브젝트와 노드는 1:N 관계)
+                const nodeArrayFromOrigin: INodeDataModel[] | null = this._getOptimalNode(origin);
+
+                // 목적지 위치에서 최적화된 노드 배열 추출
+                const nodeArrayFromDestination: INodeDataModel[] | null = this._getOptimalNode(destination);
 
                 let nodes = super.getRequest().nodes;
                 nodes = this._distinctNodeArray(nodes);
-
-                // 출발지 위치에서 최적화된 노드 배열 추출 (오브젝트와 노드는 1:N 관계)
-                nodeArrayFromOrigin = this._getOptimalNode(origin);
-
-                // 목적지 위치에서 최적화된 노드 배열 추출
-                nodeArrayFromDestination = this._getOptimalNode(destination);
 
                 if (nodeArrayFromOrigin && nodeArrayFromDestination) {
                     let minDistanceResponse: NavigationResponse = new NavigationResponse([]);
                     nodeArrayFromOrigin!.forEach((fromOrigin) => {
                         nodeArrayFromDestination!.forEach((fromDestination) => {
-                            let res = this._getPath(fromOrigin.id, fromDestination.id);
+                            const res = this._getPath(fromOrigin.id, fromDestination.id);
                             if (minDistanceResponse.totalDistance === 0 || res.totalDistance < minDistanceResponse.totalDistance) {
                                 minDistanceResponse = res;
                             }
@@ -217,8 +214,8 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @private
      */
     private _distinctNodeArray(array: INodeDataModel[]): INodeDataModel[] {
-        let result = new Array<INodeDataModel>();
-        let map: { [index: string]: boolean } = {};
+        const result = new Array<INodeDataModel>();
+        const map: { [index: string]: boolean } = {};
 
         for (const item of array) {
             if (!map[item.id]) {
@@ -251,7 +248,7 @@ export class DijkstraNavigationManager extends NavigationManager {
         if (beforeResponse.locations.length > 0 && beforeResponse.locations[beforeResponse.locations.length - 1].nodeId === afterResponse.locations[0].nodeId) {
             afterLocations = afterLocations.slice(1);
         }
-        let locations = beforeResponse.locations.concat(afterLocations);
+        const locations = beforeResponse.locations.concat(afterLocations);
         locations.forEach((location, idx) => {
             location.idx = idx;
         });
@@ -265,17 +262,17 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @private
      */
     private _convertRouteToLocations(nodeIds: string[]): ILocation[] {
-        let nodes = super.getNodeMap();
+        const nodes = super.getNodeMap();
 
-        let result = new Array<ILocation>();
+        const result = new Array<ILocation>();
 
         let nextNode: INodeDataModel | undefined = nodeIds ? nodes.get(nodeIds[0]) : undefined;
-        let beforeNode: INodeDataModel | undefined = undefined;
+        let beforeNode: INodeDataModel | undefined;
         let nextFloorId = nextNode ? nextNode!.includedFloorId : '';
 
         for (let i = 0; i < nodeIds.length; i++) {
-            let nodeId = nodeIds[i];
-            let node = nodes.get(nodeId);
+            const nodeId = nodeIds[i];
+            const node = nodes.get(nodeId);
 
             if (i < nodeIds.length - 1) {
                 nextNode = nodes.get(nodeIds[i + 1]);
@@ -298,7 +295,7 @@ export class DijkstraNavigationManager extends NavigationManager {
                     idx: i,
                     transCode: nextFloorId === node.includedFloorId && beforeNode?.transCode !== node.transCode ? null : node.transCode,
                     // , transCode: node.transCode
-                    distance: distance,
+                    distance,
                     direction: null,
                     angle: 0,
                 });
@@ -315,17 +312,17 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @private
      */
     _buildNodeGraph(computingType: ComputingType): any {
-        let graph: any = {};
+        const graph: any = {};
 
-        let nodesByFloorId = super.getNodeData();
+        const nodesByFloorId = super.getNodeData();
 
-        for (let key in nodesByFloorId) {
-            let nodes = nodesByFloorId[key];
+        for (const key in nodesByFloorId) {
+            const nodes = nodesByFloorId[key];
             nodes.forEach((node: any) => {
-                let isAvailablePath = this._checkTransTypePath(node, computingType);
+                const isAvailablePath = this._checkTransTypePath(node, computingType);
 
                 const graphData: any = {};
-                node.edges.forEach(function (edge: INodeEdgesModel) {
+                node.edges.forEach((edge: INodeEdgesModel) => {
                     if (isAvailablePath || (!isAvailablePath && !edge.linkedFloorId)) {
                         if (edge.distance > 0) {
                             graphData[edge.nodeId] = edge.distance;
@@ -350,10 +347,12 @@ export class DijkstraNavigationManager extends NavigationManager {
         if (computingType === ComputingType.SAFETY) {
             // 안전경로
             return this._isSafetyPath(node);
-        } else if (computingType === ComputingType.ELEVATOR || node.transCode === Constants.TRANSCODE.OTHER) {
+        }
+        if (computingType === ComputingType.ELEVATOR || node.transCode === Constants.TRANSCODE.OTHER) {
             // 엘리베이터
             return node.transCode === Constants.TRANSCODE.ELEVATOR || node.transCode === Constants.TRANSCODE.OTHER;
-        } else if (computingType === ComputingType.ESCALATOR || node.transCode === Constants.TRANSCODE.OTHER) {
+        }
+        if (computingType === ComputingType.ESCALATOR || node.transCode === Constants.TRANSCODE.OTHER) {
             // 에스컬레이터
             return (
                 node.transCode === Constants.TRANSCODE.ESCALATOR ||
@@ -361,13 +360,13 @@ export class DijkstraNavigationManager extends NavigationManager {
                 node.transCode === Constants.TRANSCODE.ESCALATOR_DOWN ||
                 node.transCode === Constants.TRANSCODE.OTHER
             );
-        } else if (computingType === ComputingType.STAIRS || node.transCode === Constants.TRANSCODE.OTHER) {
+        }
+        if (computingType === ComputingType.STAIRS || node.transCode === Constants.TRANSCODE.OTHER) {
             // 계단
             return node.transCode === Constants.TRANSCODE.STAIRS;
-        } else {
-            // 그 밖 (추천경로)
-            return true;
         }
+        // 그 밖 (추천경로)
+        return true;
     }
 
     /**
@@ -376,6 +375,6 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @param b
      */
     public _calcDistance(a: IPosition, b: IPosition): number {
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+        return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
     }
 }

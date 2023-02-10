@@ -39,7 +39,7 @@ async function getPath(locations: ILocation[], computingType: ComputingType, aut
     const req = new NavigationRequest(mapInfo, ComputingType.RECOMMENDATION);
     const navi = new DijkstraNavigationManager(req);
 
-    let response: NavigationResponse = navi.getPath(locations);
+    const response: NavigationResponse = navi.getPath(locations);
     // let response = navi.getPath(origin, destination, destination1);
 
     response.getPathInfo();

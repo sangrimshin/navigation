@@ -9,7 +9,7 @@ export class VectorUtils {
      */
     public static _calcRouteDistance(locations: ILocation[]): number {
         let totalDistance = 0;
-        locations.forEach((location, idx) => {
+        locations.forEach((location) => {
             totalDistance += location.distance;
         });
 
@@ -31,6 +31,6 @@ export class VectorUtils {
      * @param b
      */
     public static _calcDistance(a: IPosition, b: IPosition): number {
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+        return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
     }
 }

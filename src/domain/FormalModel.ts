@@ -3,22 +3,22 @@ import { ISize } from './ISize';
 import { ICoordinate } from './ICoordinate';
 
 export interface FormalModel {
-    /** 아이디 **/
+    /** 아이디  */
     id: string;
 
-    /** 타이틀 **/
+    /** 타이틀 */
     title: string;
 
-    /** 사이즈 **/
+    /** 사이즈 */
     size: ISize;
 
-    /** 속성 코드 **/
+    /** 속성 코드 */
     attributeCode: string;
 
-    /** 중심 좌표 **/
+    /** 중심 좌표 */
     position: IPosition;
 
-    /** 좌표 **/
+    /** 좌표 */
     coordinates: ICoordinate[] | [];
 
     /**

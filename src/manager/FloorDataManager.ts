@@ -24,12 +24,10 @@ export class FloorDataManager {
     public _sortNodesFromPosition(nodes: INodeDataModel[], position: IPosition): any {
         return nodes
             .map((node) => {
-                let distance: number = VectorUtils._calcDistance(position, node.position);
-                return { distance: distance, node: node };
+                const distance: number = VectorUtils._calcDistance(position, node.position);
+                return { distance, node };
             })
-            .sort(function (a, b) {
-                return a.distance - b.distance;
-            });
+            .sort((a, b) => a.distance - b.distance);
     }
 
     /**
@@ -38,18 +36,17 @@ export class FloorDataManager {
      * @private 관심사 위치에서 가장 가까운 노드
      */
     public _getClosestNode(locations: ILocation): INodeDataModel | null {
-        let nodes = this.request.nodes;
+        const nodes = this.request.nodes;
 
-        let sortedList = this._sortNodesFromPosition(
+        const sortedList = this._sortNodesFromPosition(
             nodes.filter((node) => node.includedFloorId === locations.floorId),
             locations.position!,
         ); // 출발지 노드 후보지 1개로 변경
 
         if (sortedList.length < 0) {
             return null;
-        } else {
-            return sortedList[0].node;
         }
+        return sortedList[0].node;
     }
 
     /**
@@ -113,16 +110,15 @@ export class FloorDataManager {
 
         if (poiIdx >= 0) {
             return floor.pois[poiIdx];
-        } else {
-            return null;
         }
+        return null;
     }
 
     public _setPoiRelatedObjectAndPOI(location: ILocation): void {
         if (!location.poiId) {
-            let objects: IObjectDataModel[] = this._getObjectsByNodeId(location.floorId, location.nodeId);
+            const objects: IObjectDataModel[] = this._getObjectsByNodeId(location.floorId, location.nodeId);
             objects.forEach((obj) => {
-                let poi: IPoiDataModel = this._getPoisByObjectId(location.floorId, obj.id)!;
+                const poi: IPoiDataModel = this._getPoisByObjectId(location.floorId, obj.id)!;
                 if (poi) {
                     location.poiId = poi.id;
                 }
@@ -141,11 +137,12 @@ export class FloorDataManager {
     public _getNodeByLocation(floorData: IFloorDataModel, location: ILocation): INodeDataModel[] | null {
         if (!location.position && !location.poiId) {
             return null;
-        } else if (!location.position && location.poiId) {
+        }
+        if (!location.position && location.poiId) {
             location.position = this._getPoiById(floorData, location.poiId).position;
         }
 
-        let resultNodes: INodeDataModel[] = [];
+        const resultNodes: INodeDataModel[] = [];
 
         // // 오브젝트에포함되어있는지 체크하는 로직 제거 함 (2.0.2), 명시적으로 오브젝트와 연결된 케이스에만 오브젝트 연결된 노드를 찾고, 그 외의 케이스는 무조건 위치 기반 탐색 수행
         // floorData.objects.filter(object => {
@@ -218,6 +215,7 @@ export class FloorDataManager {
                     if (poi) {
                         location.poiId = poi.id;
                     } else {
+                        /* empty */
                     }
                 }
             }
@@ -237,8 +235,7 @@ export class FloorDataManager {
             obj.attributeCode === Constants.TRANSCODE.STAIRS
         ) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

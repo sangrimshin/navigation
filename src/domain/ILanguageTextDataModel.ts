@@ -1,6 +1,5 @@
 /**
  * 언어별 텍트스
- *
  */
 export interface ILanguageTextDataModel {
     /**

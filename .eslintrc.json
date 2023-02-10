@@ -29,6 +29,10 @@
         "class-methods-use-this": "warn",
         "no-restricted-syntax": "off",
         "object-shorthand": "warn",
-        "guard-for-in": "off"
+        "guard-for-in": "off",
+        "no-bitwise": "warn",
+        "import/no-extraneous-dependencies": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "@typescript-eslint/naming-convention": "warn"
     }
 }

@@ -1,5 +1,6 @@
 export class Vector2 {
     x: number;
+
     y: number;
 
     constructor(x = 0, y = 0) {
@@ -60,7 +61,7 @@ export class Vector2 {
                 this.y = value;
                 break;
             default:
-                throw new Error('index is out of range: ' + index);
+                throw new Error(`index is out of range: ${index}`);
         }
 
         return this;
@@ -73,7 +74,7 @@ export class Vector2 {
             case 1:
                 return this.y;
             default:
-                throw new Error('index is out of range: ' + index);
+                throw new Error(`index is out of range: ${index}`);
         }
     }
 
@@ -173,8 +174,8 @@ export class Vector2 {
     }
 
     applyMatrix3(m: any) {
-        const x = this.x,
-            y = this.y;
+        const x = this.x;
+        const y = this.y;
         const e = m.elements;
 
         this.x = e[0] * x + e[3] * y + e[6];
@@ -291,8 +292,8 @@ export class Vector2 {
     }
 
     distanceToSquared(v: Vector2) {
-        const dx = this.x - v.x,
-            dy = this.y - v.y;
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
         return dx * dx + dy * dy;
     }
 
@@ -342,8 +343,8 @@ export class Vector2 {
     }
 
     rotateAround(center: Vector2, angle: number) {
-        const c = Math.cos(angle),
-            s = Math.sin(angle);
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
 
         const x = this.x - center.x;
         const y = this.y - center.y;

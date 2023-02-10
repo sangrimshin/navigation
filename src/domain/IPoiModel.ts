@@ -7,10 +7,10 @@ import { ILanguageTextDataModel } from './ILanguageTextDataModel';
 export interface IPoiDataModel {
     id: string;
 
-    /** 맵 아이디 **/
+    /** 맵 아이디 */
     mapId: string;
 
-    /** 층 아이디 **/
+    /** 층 아이디 */
     floorId: string;
 
     /**
@@ -41,10 +41,10 @@ export interface IPoiDataModel {
     /**
      * 아이콘 이미지 URL
      * <br><br>
-     * **/
+     */
     iconUrl: string;
 
-    /** 아이콘 size **/
+    /** 아이콘 size */
     iconSize: ISize;
 
     /**
@@ -52,7 +52,7 @@ export interface IPoiDataModel {
      */
     iconFileName: string;
 
-    /** 노출 타입 **/
+    /** 노출 타입 */
     displayType: IPoiDisplayTypeDataModel;
 
     /**

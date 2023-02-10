@@ -2,32 +2,32 @@ const MathUtils = {
     DEG2RAD: Math.PI / 180,
     RAD2DEG: 180 / Math.PI,
 
-    clamp: function (value: number, min: number, max: number) {
+    clamp(value: number, min: number, max: number) {
         return Math.max(min, Math.min(max, value));
     },
 
     // compute euclidian modulo of m % n
     // https://en.wikipedia.org/wiki/Modulo_operation
 
-    euclideanModulo: function (n: number, m: number) {
+    euclideanModulo(n: number, m: number) {
         return ((n % m) + m) % m;
     },
 
     // Linear mapping from range <a1, a2> to range <b1, b2>
 
-    mapLinear: function (x: number, a1: number, a2: number, b1: number, b2: number) {
+    mapLinear(x: number, a1: number, a2: number, b1: number, b2: number) {
         return b1 + ((x - a1) * (b2 - b1)) / (a2 - a1);
     },
 
     // https://en.wikipedia.org/wiki/Linear_interpolation
 
-    lerp: function (x: number, y: number, t: number) {
+    lerp(x: number, y: number, t: number) {
         return (1 - t) * x + t * y;
     },
 
     // http://en.wikipedia.org/wiki/Smoothstep
 
-    smoothstep: function (x: number, min: number, max: number) {
+    smoothstep(x: number, min: number, max: number) {
         if (x <= min) return 0;
         if (x >= max) return 1;
 
@@ -36,7 +36,7 @@ const MathUtils = {
         return x * x * (3 - 2 * x);
     },
 
-    smootherstep: function (x: number, min: number, max: number) {
+    smootherstep(x: number, min: number, max: number) {
         if (x <= min) return 0;
         if (x >= max) return 1;
 
@@ -47,48 +47,50 @@ const MathUtils = {
 
     // Random integer from <low, high> interval
 
-    randInt: function (low: number, high: number) {
+    randInt(low: number, high: number) {
         return low + Math.floor(Math.random() * (high - low + 1));
     },
 
     // Random float from <low, high> interval
 
-    randFloat: function (low: number, high: number) {
+    randFloat(low: number, high: number) {
         return low + Math.random() * (high - low);
     },
 
     // Random float from <-range/2, range/2> interval
 
-    randFloatSpread: function (range: number) {
+    randFloatSpread(range: number) {
         return range * (0.5 - Math.random());
     },
 
     // Deterministic pseudo-random float in the interval [ 0, 1 ]
 
-    degToRad: function (degrees: number) {
+    degToRad(degrees: number) {
         return degrees * MathUtils.DEG2RAD;
     },
 
-    radToDeg: function (radians: number) {
+    radToDeg(radians: number) {
         return radians * MathUtils.RAD2DEG;
     },
 
-    isPowerOfTwo: function (value: number) {
+    isPowerOfTwo(value: number) {
         return (value & (value - 1)) === 0 && value !== 0;
     },
 
-    ceilPowerOfTwo: function (value: number) {
-        return Math.pow(2, Math.ceil(Math.log(value) / Math.LN2));
+    ceilPowerOfTwo(value: number) {
+        return 2 ** Math.ceil(Math.log(value) / Math.LN2);
     },
 
-    floorPowerOfTwo: function (value: number) {
-        return Math.pow(2, Math.floor(Math.log(value) / Math.LN2));
+    floorPowerOfTwo(value: number) {
+        return 2 ** Math.floor(Math.log(value) / Math.LN2);
     },
 };
 
 export class Vector3 {
     x: number;
+
     y: number;
+
     z: number;
 
     constructor(x = 0, y = 0, z = 0) {
@@ -147,7 +149,7 @@ export class Vector3 {
                 this.z = value;
                 break;
             default:
-                throw new Error('index is out of range: ' + index);
+                throw new Error(`index is out of range: ${index}`);
         }
 
         return this;
@@ -162,7 +164,7 @@ export class Vector3 {
             case 2:
                 return this.z;
             default:
-                throw new Error('index is out of range: ' + index);
+                throw new Error(`index is out of range: ${index}`);
         }
     }
 
@@ -415,12 +417,12 @@ export class Vector3 {
     }
 
     crossVectors(a: Vector3, b: Vector3) {
-        const ax = a.x,
-            ay = a.y,
-            az = a.z;
-        const bx = b.x,
-            by = b.y,
-            bz = b.z;
+        const ax = a.x;
+        const ay = a.y;
+        const az = a.z;
+        const bx = b.x;
+        const by = b.y;
+        const bz = b.z;
 
         this.x = ay * bz - az * by;
         this.y = az * bx - ax * bz;
@@ -456,9 +458,9 @@ export class Vector3 {
     }
 
     distanceToSquared(v: Vector3) {
-        const dx = this.x - v.x,
-            dy = this.y - v.y,
-            dz = this.z - v.z;
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        const dz = this.z - v.z;
 
         return dx * dx + dy * dy + dz * dz;
     }

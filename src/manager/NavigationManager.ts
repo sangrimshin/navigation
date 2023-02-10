@@ -9,7 +9,7 @@ import { INodeDataModel } from '../domain/INodeDataModel';
 import { ComputingType } from '../domain/ComputingType';
 import { DirectionType } from '../domain/DirectionType';
 
-let _ = require('lodash');
+const _ = require('lodash');
 
 export abstract class NavigationManager {
     protected _request: NavigationRequest;
@@ -60,27 +60,27 @@ export abstract class NavigationManager {
     }
 
     protected diffAngle(prevPosition: Vector3, currentPosition: Vector3, nextPosition: Vector3): number {
-        let dir1 = new Vector3(); // create once an reuse it
+        const dir1 = new Vector3(); // create once an reuse it
         dir1.subVectors(currentPosition, prevPosition).normalize();
 
-        let dir2 = new Vector3(); // create once an reuse it
+        const dir2 = new Vector3(); // create once an reuse it
         dir2.subVectors(nextPosition, currentPosition).normalize();
 
-        let angle1 = dir2.angleTo(dir1);
-        let degree = (angle1 * 180) / Math.PI;
+        const angle1 = dir2.angleTo(dir1);
+        const degree = (angle1 * 180) / Math.PI;
 
         return degree;
     }
 
     protected detectDirection(prevPosition: Vector3, currentPosition: Vector3, nextPosition: Vector3): DirectionType {
-        let dir = new Vector3(); // create once an reuse it
+        const dir = new Vector3(); // create once an reuse it
         dir.subVectors(prevPosition, currentPosition).normalize();
-        let v12 = new Vector2(dir.x, dir.y);
+        const v12 = new Vector2(dir.x, dir.y);
 
         dir.subVectors(nextPosition, currentPosition).normalize();
-        let v22 = new Vector2(dir.x, dir.y);
+        const v22 = new Vector2(dir.x, dir.y);
 
-        let corr = v22.cross(v12);
+        const corr = v22.cross(v12);
 
         let result = DirectionType.STRAIGHT;
 
@@ -99,7 +99,7 @@ export abstract class NavigationManager {
         let prevLocation: ILocation | null = null;
         let currentLocation = null;
         let nextLocation = null;
-        let newLocations: ILocation[] = [];
+        const newLocations: ILocation[] = [];
 
         locations.forEach((location, idx) => {
             if (floorId !== location.floorId) {
@@ -130,7 +130,7 @@ export abstract class NavigationManager {
 
             if (prevLocation !== null && currentLocation !== null && nextLocation !== null) {
                 let prevPosition = new Vector3(prevLocation.position?.x, prevLocation.position?.y, prevLocation.position?.z);
-                let currentPosition = new Vector3(currentLocation.position?.x, currentLocation.position?.y, currentLocation.position?.z);
+                const currentPosition = new Vector3(currentLocation.position?.x, currentLocation.position?.y, currentLocation.position?.z);
                 let nextPosition = new Vector3(nextLocation.position?.x, nextLocation.position?.y, nextLocation.position?.z);
 
                 // 층간 이동에 따른 이동 전 층 / 이동 후 층 에 따른 위치값 보정처리 (https://www.notion.so/dabeeo/IMSTUDIO-0f8dd823178e49b2bf47fd25676560a6)
@@ -174,14 +174,14 @@ export abstract class NavigationManager {
                     }
                 }
             }
-            floorIdx++;
+            floorIdx += 1;
         });
 
         // 새로 뽑힌 location 들을 기반으로 거리 계산
         newLocations.forEach((location, idx) => {
             if (idx > 0) {
-                let prev = new Vector2(newLocations[idx - 1].position?.x, newLocations[idx - 1].position?.y);
-                let curr = new Vector2(location.position?.x, location.position?.y);
+                const prev = new Vector2(newLocations[idx - 1].position?.x, newLocations[idx - 1].position?.y);
+                const curr = new Vector2(location.position?.x, location.position?.y);
 
                 if (newLocations[idx - 1].floorId !== location.floorId) {
                     location.distance = 0;
