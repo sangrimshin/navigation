@@ -1,25 +1,28 @@
 import { Dollar } from '../Dollar';
 import { getPathRequest } from './getPathRequest';
 import { resultPathRequest } from './result';
+import { resultPathRequest2 } from './result2';
 
 const request = require('supertest');
 const dotenv = require('dotenv');
 
 dotenv.config(); // .env 파일을 읽어온다.
 
-test('곱셈 테스트', () => {
-    const dollar = new Dollar(5);
+describe('JEST SAMPLE Test', () => {
+    test('곱셈 테스트', () => {
+        const dollar = new Dollar(5);
 
-    dollar.times(2);
+        dollar.times(2);
 
-    expect(dollar.amount).toBe(10);
+        expect(dollar.amount).toBe(10);
+    });
 });
 
 describe('pathAPI Test', () => {
     test('success case', async () => {
         const original = await getPathRequest();
         // console.log(original);
-        expect(original).toEqual(resultPathRequest); // <- success
+        expect(original).toStrictEqual(resultPathRequest); // <- success
     });
 });
 

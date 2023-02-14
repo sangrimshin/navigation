@@ -12,9 +12,6 @@ export class NavigationRequest {
     constructor(mapInfo: IMapInfoDataModel, computingType: ComputingType = ComputingType.RECOMMENDATION) {
         this.mapInfo = mapInfo;
         this.computingType = computingType;
-        // for (const floor of mapInfo.floors) {
-        //     this.nodes = this.nodes.concat(floor.nodes);
-        // }
         mapInfo.floors.forEach((floor) => this.nodes.push(...floor.nodes));
     }
 }
