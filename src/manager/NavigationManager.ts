@@ -159,7 +159,7 @@ export abstract class NavigationManager {
                 distance = nextPosition.distanceTo(currentPosition);
             }
 
-            if (location.isDestination || floorIdx === 0) {
+            if (location.destination || floorIdx === 0) {
                 location.direction = direction;
                 newLocations.push(location); // 경유지노드는 심플리파이 될 수 없음
             } else if (nextLocation?.floorId !== currentLocation?.floorId) {
@@ -173,13 +173,15 @@ export abstract class NavigationManager {
             floorIdx += 1;
         });
 
+        const copiedLocations: ILocation[] = _.cloneDeep(newLocations);
+
         // 새로 뽑힌 location 들을 기반으로 거리 계산
-        newLocations.forEach((location, idx) => {
-            if (idx > 0) {
-                const prev = new Vector2(newLocations[idx - 1].position?.x, newLocations[idx - 1].position?.y);
+        copiedLocations.forEach((location, idx) => {
+            if (idx < copiedLocations.length - 1) {
+                const prev = new Vector2(copiedLocations[idx + 1].position?.x, copiedLocations[idx + 1].position?.y);
                 const curr = new Vector2(location.position?.x, location.position?.y);
 
-                if (newLocations[idx - 1].floorId !== location.floorId) {
+                if (copiedLocations[idx + 1].floorId !== location.floorId) {
                     location.distance = 0;
                 } else {
                     location.distance = curr.distanceTo(prev);
@@ -187,6 +189,6 @@ export abstract class NavigationManager {
             }
         });
 
-        return newLocations;
+        return copiedLocations;
     }
 }

@@ -30,7 +30,7 @@ export class NavigationResponse {
     }
 
     getWayPoints(): ILocation[] {
-        return this.locations.filter((location) => location.isDestination);
+        return this.locations.filter((location) => location.destination);
     }
 
     calculateTotalDistanceAndTime() {

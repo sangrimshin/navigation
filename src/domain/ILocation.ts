@@ -6,7 +6,7 @@ export interface ILocation {
     floorId: string;
     nodeId: string;
     poiId: string | null;
-    isDestination: boolean;
+    destination: boolean;
     idx: number;
     transCode: string | null;
     distance: number;

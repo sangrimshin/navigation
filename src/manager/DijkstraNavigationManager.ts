@@ -148,6 +148,10 @@ export class DijkstraNavigationManager extends NavigationManager {
             location.distance *= scaleCm;
         });
 
+        result.pathInfo.forEach((path) => {
+            path.distance *= scaleCm;
+        });
+
         // 노드와 POI 연결
         result.locations.forEach((location) => this._floorDataManager._setPoiRelatedObjectAndPOI(location));
 
@@ -270,15 +274,11 @@ export class DijkstraNavigationManager extends NavigationManager {
             const nodeId = nodeIds[i];
             const node = nodes.get(nodeId);
 
+            let distance = 0;
             if (i < nodeIds.length - 1) {
                 nextNode = nodes.get(nodeIds[i + 1]);
                 nextFloorId = nextNode!.includedFloorId;
-            }
-
-            let distance = 0;
-            if (i > 0) {
-                beforeNode = nodes.get(nodeIds[i - 1]);
-                distance = this.graph[beforeNode!.id][node!.id];
+                distance = this.graph[node!.id][nextNode!.id];
             }
 
             if (node) {
@@ -287,10 +287,10 @@ export class DijkstraNavigationManager extends NavigationManager {
                     floorId: node.includedFloorId,
                     nodeId: node.id,
                     poiId: null,
-                    isDestination: i === 0 || i === nodeIds.length - 1,
+                    destination: i === 0 || i === nodeIds.length - 1,
                     idx: i,
-                    transCode: nextFloorId === node.includedFloorId && beforeNode?.transCode !== node.transCode ? null : node.transCode,
-                    // , transCode: node.transCode
+                    // transCode: nextFloorId === node.includedFloorId && beforeNode?.transCode !== node.transCode ? null : node.transCode,
+                    transCode: node.transCode,
                     distance,
                     direction: null,
                     angle: 0,

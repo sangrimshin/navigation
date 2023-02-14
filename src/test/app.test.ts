@@ -21,8 +21,8 @@ describe('JEST SAMPLE Test', () => {
 describe('pathAPI Test', () => {
     test('success case', async () => {
         const original = await getPathRequest();
-        // console.log(original);
-        expect(original).toStrictEqual(resultPathRequest); // <- success
+        console.log(original);
+        expect(original).toStrictEqual(resultPathRequest2); // <- success
     });
 });
 
