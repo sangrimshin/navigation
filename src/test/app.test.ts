@@ -21,16 +21,16 @@ describe('JEST SAMPLE Test', () => {
 });
 
 describe('pathAPI Test', () => {
-    // test('success case - single Floor single Type', async () => {
-    //     const original = await getPathRequest(navigationOption.singleFloorSingleType);
-    //     console.log(original);
-    //     expect(original).toStrictEqual(resultSingleFloorSingleType); // <- success
-    // });
-    // test('success case - single Floor multi Type', async () => {
-    //     const original = await getPathRequest(navigationOption.singleFloorMultiType);
-    //     console.log(original);
-    //     expect(original).toStrictEqual(resultSingleFloorMultiType); // <- success
-    // });
+    test('success case - single Floor single Type', async () => {
+        const original = await getPathRequest(navigationOption.singleFloorSingleType);
+        console.log(original);
+        expect(original).toStrictEqual(resultSingleFloorSingleType); // <- success
+    });
+    test('success case - single Floor multi Type', async () => {
+        const original = await getPathRequest(navigationOption.singleFloorMultiType);
+        console.log(original);
+        expect(original).toStrictEqual(resultSingleFloorMultiType); // <- success
+    });
     test('success case - single Floor single Type with Waypoints ', async () => {
         const original = await getPathRequest(navigationOption.singleFloorSingleTypeWaypoints);
         console.log(JSON.stringify(original, null, 2));

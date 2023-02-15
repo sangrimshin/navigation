@@ -102,6 +102,8 @@ export abstract class NavigationManager {
         const newLocations: ILocation[] = [];
 
         locations.forEach((location, idx) => {
+            if (!location.transCode) location.direction = DirectionType.STRAIGHT;
+
             if (floorId !== location.floorId) {
                 // 다른 층
                 floorId = location.floorId;
