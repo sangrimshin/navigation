@@ -78,32 +78,32 @@ export class DijkstraNavigationManager extends NavigationManager {
 
         const optimalPath = this._getOptimalPath(locations);
 
-        let result = new NavigationResponse([]);
+        let navigationResponse: NavigationResponse = new NavigationResponse([]);
 
         optimalPath.forEach((waypoint, idx) => {
             if (idx < locations.length - 1) {
                 const origin = optimalPath[idx];
                 const destination = optimalPath[idx + 1];
-                const response = this._getPath(origin.nodeId, destination.nodeId);
-                response.locations.forEach((resLocation, myIdx) => {
+                const response: NavigationResponse = this._getPath(origin.nodeId, destination.nodeId);
+                response.getLocations().forEach((resLocation, myIdx) => {
                     if (!resLocation.poiId) {
                         if (myIdx === 0) {
                             resLocation.poiId = origin.poiId;
                         }
 
-                        if (myIdx === response.locations.length - 1) {
+                        if (myIdx === response.getLocations().length - 1) {
                             resLocation.poiId = destination.poiId;
                         }
                     }
                 });
 
-                result = this._mergeResponse(result, response);
+                navigationResponse = this._mergeResponse(navigationResponse, response);
             }
         });
 
-        const pathInfo = super.simplify(result.locations);
+        let pathInfo = super.simplify(navigationResponse.getLocations());
 
-        result.pathInfo = pathInfo.reduce((acc, cur: ILocation, i) => {
+        pathInfo = pathInfo.reduce((acc, cur: ILocation, i) => {
             if (cur.transCode === null) {
                 acc.push(cur);
             } else if (i > 0 && i < pathInfo.length - 1) {
@@ -124,19 +124,20 @@ export class DijkstraNavigationManager extends NavigationManager {
             return acc;
         }, new Array<ILocation>());
 
-        result.pathInfo.forEach((cur, i) => {
+        pathInfo.forEach((cur, i) => {
             if (i > 0) {
-                if (result.pathInfo[i - 1].floorId !== cur.floorId) {
+                if (pathInfo[i - 1].floorId !== cur.floorId) {
                     cur.transCode = null;
                 }
             }
         });
+        locations = navigationResponse.getLocations();
 
-        result.locations = result.locations.reduce((arr, cur, i) => {
+        locations = locations.reduce((arr, cur, i) => {
             if (cur.transCode === null) {
                 arr.push(cur);
-            } else if (i > 0 && i < result.locations.length - 1) {
-                if (result.locations[i - 1].transCode !== cur.transCode || result.locations[i + 1].transCode !== cur.transCode) {
+            } else if (i > 0 && i < locations.length - 1) {
+                if (locations[i - 1].transCode !== cur.transCode || locations[i + 1].transCode !== cur.transCode) {
                     arr.push(cur);
                 }
             }
@@ -144,20 +145,22 @@ export class DijkstraNavigationManager extends NavigationManager {
             return arr;
         }, new Array<ILocation>());
 
-        result.locations.forEach((location) => {
+        locations.forEach((location) => {
             location.distance *= scaleCm;
         });
 
-        result.pathInfo.forEach((path) => {
+        pathInfo.forEach((path) => {
             path.distance *= scaleCm;
         });
 
+        navigationResponse.setPathInfo(pathInfo);
+        navigationResponse.setLocations(locations);
         // 노드와 POI 연결
-        result.locations.forEach((location) => this._floorDataManager._setPoiRelatedObjectAndPOI(location));
+        locations.forEach((location) => this._floorDataManager._setPoiRelatedObjectAndPOI(location));
 
-        result.calculateTotalDistanceAndTime();
+        navigationResponse.setCalculateTotalDistanceAndTime();
 
-        return result;
+        return navigationResponse;
     }
 
     /**
@@ -189,8 +192,8 @@ export class DijkstraNavigationManager extends NavigationManager {
                     let minDistanceResponse: NavigationResponse = new NavigationResponse([]);
                     nodeArrayFromOrigin!.forEach((fromOrigin) => {
                         nodeArrayFromDestination!.forEach((fromDestination) => {
-                            const res = this._getPath(fromOrigin.id, fromDestination.id);
-                            if (minDistanceResponse.totalDistance === 0 || res.totalDistance < minDistanceResponse.totalDistance) {
+                            const res: NavigationResponse = this._getPath(fromOrigin.id, fromDestination.id);
+                            if (minDistanceResponse.getTotalDistance() === 0 || res.getTotalDistance() < minDistanceResponse.getTotalDistance()) {
                                 minDistanceResponse = res;
                             }
                         });
@@ -244,11 +247,14 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @private
      */
     private _mergeResponse(beforeResponse: NavigationResponse, afterResponse: NavigationResponse): NavigationResponse {
-        let afterLocations = afterResponse.locations;
-        if (beforeResponse.locations.length > 0 && beforeResponse.locations[beforeResponse.locations.length - 1].nodeId === afterResponse.locations[0].nodeId) {
+        let afterLocations = afterResponse.getLocations();
+        if (
+            beforeResponse.getLocations().length > 0 &&
+            beforeResponse.getLocations()[beforeResponse.getLocations().length - 1].nodeId === afterResponse.getLocations()[0].nodeId
+        ) {
             afterLocations = afterLocations.slice(1);
         }
-        const locations = beforeResponse.locations.concat(afterLocations);
+        const locations = beforeResponse.getLocations().concat(afterLocations);
         locations.forEach((location, idx) => {
             location.idx = idx;
         });

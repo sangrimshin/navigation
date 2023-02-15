@@ -1,7 +1,7 @@
 import { Dollar } from '../Dollar';
 import { getPathRequest } from './getPathRequest';
-import { resultPathRequest } from './result';
-import { resultPathRequest2 } from './result2';
+import { resultSingleFloorMultiType } from './singleFloorMultiType';
+import { resultSingleFloorSingleType } from './singleFloorSingleType';
 
 const request = require('supertest');
 const dotenv = require('dotenv');
@@ -19,10 +19,15 @@ describe('JEST SAMPLE Test', () => {
 });
 
 describe('pathAPI Test', () => {
-    test('success case', async () => {
+    test('success case - single Floor single Type', async () => {
         const original = await getPathRequest();
         console.log(original);
-        expect(original).toStrictEqual(resultPathRequest2); // <- success
+        expect(original).toStrictEqual(resultSingleFloorSingleType); // <- success
+    });
+    test('success case - single Floor multi Type', async () => {
+        const original = await getPathRequest();
+        console.log(original);
+        expect(original).toStrictEqual(resultSingleFloorSingleType); // <- success
     });
 });
 

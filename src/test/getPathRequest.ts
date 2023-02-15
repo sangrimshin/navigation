@@ -1,6 +1,10 @@
 import axios from 'axios';
 import qs from 'qs';
 
+const dotenv = require('dotenv');
+
+dotenv.config(); // .env 파일을 읽어온다.
+
 async function getToken(): Promise<any> {
     let resultData;
     const clientId = '75hb8YSnAokb-sZ04aDR91';
@@ -48,13 +52,13 @@ export async function getPathRequest() {
                 floorId: 'FL-t4vqgyek3jnb8146',
             },
         ],
-        computingTypeList: ['RECOMMENDATION'],
+        computingTypeList: ['recommendation'],
     });
 
     const config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8087/v2/find-path?t=JS',
+        url: `http://localhost:${process.env.PORT}/v2/find-path?t=JS`,
         headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json',

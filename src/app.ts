@@ -5,6 +5,8 @@ import { ComputingType } from './domain/ComputingType';
 import { DijkstraNavigationManager } from './manager/DijkstraNavigationManager';
 import { ILocation } from './domain/ILocation';
 import { NavigationResponse } from './domain/NavigationResponse';
+import { INetworkRequest } from './domain/INetworkRequest';
+import { NetworkResponse } from './domain/NetworkResponse';
 
 const dotenv = require('dotenv');
 
@@ -45,28 +47,33 @@ async function getMapAxios(token: string) {
     // console.log(data);
 }
 
-async function getPath(locations: ILocation[], computingType: ComputingType, authoization: string): Promise<NavigationResponse> {
+async function getPath(authoization: string, locations: ILocation[], computingTypeList: ComputingType[]): Promise<NetworkResponse> {
+    computingTypeList = computingTypeList || [ComputingType.RECOMMENDATION];
     const mapInfo = await getMapAxios(authoization);
-    const req = new NavigationRequest(mapInfo, ComputingType.RECOMMENDATION);
-    const navi = new DijkstraNavigationManager(req);
+    const networkResponse: NetworkResponse = new NetworkResponse('00', '');
 
-    const response: NavigationResponse = navi.getPath(locations);
-    // let response = navi.getPath(origin, destination, destination1);
+    computingTypeList.forEach((computingType: ComputingType) => {
+        const req = new NavigationRequest(mapInfo, computingType);
+        const navi = new DijkstraNavigationManager(req);
 
-    response.getPathInfo();
+        const response: NavigationResponse = navi.getPath(locations);
+        // let response = navi.getPath(origin, destination, destination1);
 
-    response.getOrigin();
+        response.getPathInfo();
+        response.getOrigin();
+        response.getFinalDestination();
+        response.getWayPoints();
 
-    response.getFinalDestination();
+        // console.log('locations', response.totalDistance, response.totalTime, response.locations);
+        networkResponse.addResponse(computingType, response);
+    });
 
-    response.getWayPoints();
-
-    // console.log('locations', response.totalDistance, response.totalTime, response.locations);
-    return response;
+    return networkResponse;
 }
 
 app.post('/v2/find-path', async (req, res) => {
-    const { computingTypeList, locations } = req.body;
+    const networkRequest: INetworkRequest = req.body;
+    const { computingTypeList, locations } = networkRequest;
     const { authorization } = req.headers;
     console.log('received post command');
 
@@ -75,7 +82,7 @@ app.post('/v2/find-path', async (req, res) => {
     // console.log(computingTypeList);
     // res.send('Hello World!');
     if (!authorization) return;
-    const naviResponse = await getPath(locations, computingTypeList, authorization);
+    const naviResponse = await getPath(authorization, locations, computingTypeList);
     res.json(naviResponse);
 });
 
