@@ -36,24 +36,12 @@ async function getToken(): Promise<any> {
     return resultData;
 }
 
-export async function getPathRequest() {
+export async function getPathRequest(option: any) {
     let result;
     const authRes = await getToken();
     // console.log(authRes);
     const accessToken = authRes.access_token;
-    const data = JSON.stringify({
-        locations: [
-            {
-                poiId: 'PO-4JvSQCWHC2270',
-                floorId: 'FL-t4vqgyek3jnb8146',
-            },
-            {
-                poiId: 'PO-M02DvTVjp8449',
-                floorId: 'FL-t4vqgyek3jnb8146',
-            },
-        ],
-        computingTypeList: ['recommendation'],
-    });
+    const data = JSON.stringify(option);
 
     const config = {
         method: 'post',

@@ -160,6 +160,11 @@ export abstract class NavigationManager {
             }
 
             if (location.destination || floorIdx === 0) {
+                // UTURN 처리
+                if (angle > Constants.UTURN_DEGREE) {
+                    direction = DirectionType.UTURN;
+                }
+
                 location.direction = direction;
                 newLocations.push(location); // 경유지노드는 심플리파이 될 수 없음
             } else if (nextLocation?.floorId !== currentLocation?.floorId) {
