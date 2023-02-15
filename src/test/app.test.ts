@@ -1,4 +1,5 @@
 import { Dollar } from '../Dollar';
+import { resultDoubleFloorSingleType } from './doubleFloorSingleType';
 import { getPathRequest } from './getPathRequest';
 import { navigationOption } from './navigationOption';
 import { resultSingleFloorMultiType } from './singleFloorMultiType';
@@ -35,6 +36,11 @@ describe('pathAPI Test', () => {
         const original = await getPathRequest(navigationOption.singleFloorSingleTypeWaypoints);
         console.log(JSON.stringify(original, null, 2));
         expect(original).toStrictEqual(resultSingleFloorSingleTypeWaypoints); // <- success
+    });
+    test('success case - double Floor single Type ', async () => {
+        const original = await getPathRequest(navigationOption.dobuleFloorSingleType);
+        console.log(JSON.stringify(original, null, 2));
+        expect(original).toStrictEqual(resultDoubleFloorSingleType); // <- success
     });
 });
 
