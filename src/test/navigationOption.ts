@@ -82,7 +82,7 @@ export const navigationOption = {
         ],
         computingTypeList: ['STAIRS'],
     },
-    singleFloor: {
+    singleFloorRecommendationType2Waypoints: {
         computingTypeList: ['RECOMMENDATION'],
         locations: [
             {

@@ -125,8 +125,8 @@ export class DijkstraNavigationManager extends NavigationManager {
         }, new Array<ILocation>());
 
         pathInfo.forEach((cur, i) => {
-            if (i > 0) {
-                if (pathInfo[i - 1].floorId !== cur.floorId) {
+            if (i < pathInfo.length - 1) {
+                if (pathInfo[i + 1].floorId === cur.floorId) {
                     cur.transCode = null;
                 }
             }
@@ -141,7 +141,6 @@ export class DijkstraNavigationManager extends NavigationManager {
                     arr.push(cur);
                 }
             }
-
             return arr;
         }, new Array<ILocation>());
 
