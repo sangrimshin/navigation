@@ -135,7 +135,7 @@ export const navigationOption = {
             },
         ],
     },
-    elevator: {
+    doubleFloorElevatorType2Waypoints: {
         computingTypeList: ['ELEVATOR'],
         locations: [
             {

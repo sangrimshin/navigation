@@ -5,6 +5,7 @@ import { SingleFloorNoTypeNoWaypoints } from './singleFloorNoTypeNoWaypoints';
 import { DoubleFloorElevatorTypeNoWaypoints } from './doubleFloorElevatorTypeNoWaypoints';
 import { SingleFloorRecommendationType2Waypoints } from './singleFloorSingleTypeWaypoints';
 import { DoubleFloorStairsType2Waypoints } from './doubleFloorStairsType2Waypoints';
+import { DoubleFloorElevatorType2Waypoints } from './doubleFloorElevatorType2Waypoints';
 
 const request = require('supertest');
 const dotenv = require('dotenv');
@@ -52,6 +53,15 @@ describe('pathAPI Test', () => {
         console.log(result);
 
         expect(original).toStrictEqual(DoubleFloorStairsType2Waypoints); // <- success
+    });
+
+    test('Double Floor Elevator Type with 2 Waypoints ', async () => {
+        const original = await getPathRequest(navigationOption.doubleFloorElevatorType2Waypoints);
+        // console.log(JSON.stringify(original, null, 2));
+        const result = diff(DoubleFloorElevatorType2Waypoints, original);
+        console.log(result);
+
+        expect(original).toStrictEqual(DoubleFloorElevatorType2Waypoints); // <- success
     });
 
     // test('Single Floor multi Type', async () => {
