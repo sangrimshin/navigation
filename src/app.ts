@@ -7,7 +7,6 @@ import { ILocation } from './domain/ILocation';
 import { NavigationResponse } from './domain/NavigationResponse';
 import { INetworkRequest } from './domain/INetworkRequest';
 import { NetworkResponse } from './domain/NetworkResponse';
-import { toLength } from 'lodash';
 
 const dotenv = require('dotenv');
 const cors = require('cors');

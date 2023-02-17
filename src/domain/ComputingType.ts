@@ -1,8 +1,8 @@
 export enum ComputingType {
-    RECOMMENDATION_TYPE = 'recommendation',
-    SAFETY_TYPE = 'safety',
-    STAIRS_TYPE = 'stairs',
-    ESCALATOR_TYPE = 'escalator',
-    ELEVATOR_TYPE = 'elevator',
-    OTHER_TYPE = 'other',
+    RECOMMENDATION_TYPE = 'RECOMMENDATION',
+    SAFETY_TYPE = 'SAFETY',
+    STAIRS_TYPE = 'STAIRS',
+    ESCALATOR_TYPE = 'ESCALATOR',
+    ELEVATOR_TYPE = 'ELEVATOR',
+    OTHER_TYPE = 'OTHER',
 }

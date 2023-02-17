@@ -1,5 +1,5 @@
 export const navigationOption = {
-    singleFloorSingleType: {
+    singleFloorNoTypeNoWaypoints: {
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
@@ -12,6 +12,20 @@ export const navigationOption = {
         ],
         computingTypeList: ['recommendation'],
     },
+    doubleFloorElevatorTypeNoWaypoints: {
+        locations: [
+            {
+                poiId: 'PO-bG8eepPeB2502', // 여자화장실 (2층)
+                floorId: 'FL-vf3q07spbmsw8132',
+            },
+            {
+                poiId: 'PO-M02DvTVjp8449', // 회의실1 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+        ],
+        computingTypeList: ['ELEVATOR'],
+    },
+
     singleFloorMultiType: {
         locations: [
             {
@@ -23,7 +37,7 @@ export const navigationOption = {
                 floorId: 'FL-t4vqgyek3jnb8146', // 11층
             },
         ],
-        computingTypeList: ['recommendation', 'stairs'],
+        computingTypeList: ['RECOMMENDATION', 'STAIRS'],
     },
     singleFloorSingleTypeWaypoints: {
         locations: [
@@ -40,7 +54,7 @@ export const navigationOption = {
                 floorId: 'FL-t4vqgyek3jnb8146', // 11층
             },
         ],
-        computingTypeList: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
     },
     dobuleFloorSingleType: {
         locations: [
@@ -53,7 +67,7 @@ export const navigationOption = {
                 floorId: 'FL-t4vqgyek3jnb8146', // 11층
             },
         ],
-        computingTypeList: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
     },
     dobuleFloorStairsType: {
         locations: [
@@ -66,10 +80,10 @@ export const navigationOption = {
                 floorId: 'FL-t4vqgyek3jnb8146', // 11층
             },
         ],
-        computingTypeList: ['stairs'],
+        computingTypeList: ['STAIRS'],
     },
     singleFloor: {
-        type: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
@@ -102,7 +116,7 @@ export const navigationOption = {
         ],
     },
     stairs: {
-        type: ['stairs'],
+        computingTypeList: ['STAIRS'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
@@ -123,7 +137,7 @@ export const navigationOption = {
         ],
     },
     elevator: {
-        type: ['elevator'],
+        computingTypeList: ['ELEVATOR'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
@@ -144,7 +158,7 @@ export const navigationOption = {
         ],
     },
     multiType: {
-        type: ['escalator', 'stairs', 'elevator'],
+        computingTypeList: ['ESCALATOR', 'STAIRS', 'ELEVATOR'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
@@ -166,7 +180,7 @@ export const navigationOption = {
     },
 
     up: {
-        type: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
         locations: [
             {
                 poiId: 'PO-bG8eepPeB2502', // 여자화장실 (2층)
@@ -187,7 +201,7 @@ export const navigationOption = {
         ],
     },
     upDown: {
-        type: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
         locations: [
             {
                 poiId: 'PO-bG8eepPeB2502', // 여자화장실 (2층)
@@ -208,7 +222,7 @@ export const navigationOption = {
         ],
     },
     down: {
-        type: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
@@ -229,7 +243,7 @@ export const navigationOption = {
         ],
     },
     downUp: {
-        type: ['recommendation'],
+        computingTypeList: ['RECOMMENDATION'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
