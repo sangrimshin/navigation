@@ -9,7 +9,7 @@ export class NavigationRequest {
 
     nodes: INodeDataModel[] = [];
 
-    constructor(mapInfo: IMapInfoDataModel, computingType: ComputingType = ComputingType.RECOMMENDATION) {
+    constructor(mapInfo: IMapInfoDataModel, computingType: ComputingType = ComputingType.RECOMMENDATION_TYPE) {
         this.mapInfo = mapInfo;
         this.computingType = computingType;
         mapInfo.floors.forEach((floor) => this.nodes.push(...floor.nodes));

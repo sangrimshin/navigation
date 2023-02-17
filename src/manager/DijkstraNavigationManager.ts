@@ -345,16 +345,16 @@ export class DijkstraNavigationManager extends NavigationManager {
         return !node.transCode || node.transCode === Constants.TRANSCODE.ELEVATOR || node.transCode === Constants.TRANSCODE.OTHER;
     }
 
-    _checkTransTypePath(node: INodeDataModel, computingType: ComputingType = ComputingType.RECOMMENDATION): boolean {
-        if (computingType === ComputingType.SAFETY) {
+    _checkTransTypePath(node: INodeDataModel, computingType: ComputingType = ComputingType.RECOMMENDATION_TYPE): boolean {
+        if (computingType === ComputingType.SAFETY_TYPE) {
             // 안전경로
             return this._isSafetyPath(node);
         }
-        if (computingType === ComputingType.ELEVATOR || node.transCode === Constants.TRANSCODE.OTHER) {
+        if (computingType === ComputingType.ELEVATOR_TYPE || node.transCode === Constants.TRANSCODE.OTHER) {
             // 엘리베이터
             return node.transCode === Constants.TRANSCODE.ELEVATOR || node.transCode === Constants.TRANSCODE.OTHER;
         }
-        if (computingType === ComputingType.ESCALATOR || node.transCode === Constants.TRANSCODE.OTHER) {
+        if (computingType === ComputingType.ESCALATOR_TYPE || node.transCode === Constants.TRANSCODE.OTHER) {
             // 에스컬레이터
             return (
                 node.transCode === Constants.TRANSCODE.ESCALATOR ||
@@ -363,7 +363,7 @@ export class DijkstraNavigationManager extends NavigationManager {
                 node.transCode === Constants.TRANSCODE.OTHER
             );
         }
-        if (computingType === ComputingType.STAIRS || node.transCode === Constants.TRANSCODE.OTHER) {
+        if (computingType === ComputingType.STAIRS_TYPE || node.transCode === Constants.TRANSCODE.OTHER) {
             // 계단
             return node.transCode === Constants.TRANSCODE.STAIRS;
         }

@@ -7,6 +7,7 @@ import { ILocation } from './domain/ILocation';
 import { NavigationResponse } from './domain/NavigationResponse';
 import { INetworkRequest } from './domain/INetworkRequest';
 import { NetworkResponse } from './domain/NetworkResponse';
+import { toLength } from 'lodash';
 
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -16,21 +17,7 @@ dotenv.config(); // .env 파일을 읽어온다.
 export const app = express();
 export const port = process.env.PORT || 4000;
 
-const allowlist = ['http://0.0.0.0:9000', 'http://example2.com'];
 app.options('*', cors());
-
-const corsOptionsDelegate = function (req: any, callback: any) {
-    let corsOptions;
-    if (allowlist.indexOf(req.header('Origin')) !== -1) {
-        // ✅ set origin to true to reflect the request origin
-        // as defined by the `Origin` request header
-        // or set origin to false to disable CORS
-        corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-    } else {
-        corsOptions = { origin: false }; // disable CORS for this request
-    }
-    callback(null, corsOptions); // callback expects two parameters: error and options
-};
 
 app.use(express.json()); // use() 를 통해 연결 시킨다! (사용하기 위해)
 
@@ -65,7 +52,7 @@ async function getMapAxios(token: string) {
 }
 
 async function getPath(authoization: string, locations: ILocation[], computingTypeList: ComputingType[]): Promise<NetworkResponse> {
-    computingTypeList = computingTypeList || [ComputingType.RECOMMENDATION];
+    computingTypeList = computingTypeList || [ComputingType.RECOMMENDATION_TYPE];
     const mapInfo = await getMapAxios(authoization);
     const networkResponse: NetworkResponse = new NetworkResponse('00', '');
 
@@ -90,9 +77,11 @@ async function getPath(authoization: string, locations: ILocation[], computingTy
 
 app.post('/v2/find-path', cors(), async (req, res) => {
     const networkRequest: INetworkRequest = req.body;
-    const { computingTypeList, locations } = networkRequest;
+    const { locations } = networkRequest;
+    const computingTypeList: ComputingType[] = networkRequest.computingTypeList;
     const { authorization } = req.headers;
     console.log('received post command');
+    // const computingTypeList: ComputingType[] = networkRequest.computingTypeList.map((element) => element.toLowerCase());
 
     // console.log(req.headers.authorization);
     // console.log(locations);

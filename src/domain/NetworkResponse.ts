@@ -1,5 +1,4 @@
 import { ComputingType } from './ComputingType';
-import { ILocation } from './ILocation';
 import { NavigationResponse } from './NavigationResponse';
 
 export class NetworkResponse {
@@ -8,7 +7,7 @@ export class NetworkResponse {
     message: string;
 
     payload: {
-        [key in ComputingType]?: NavigationResponse;
+        [key in string]?: NavigationResponse;
     };
 
     constructor(code: string, message: string) {
@@ -18,6 +17,6 @@ export class NetworkResponse {
     }
 
     addResponse(computingType: ComputingType, response: NavigationResponse) {
-        this.payload[computingType] = response;
+        this.payload[computingType.toLowerCase()] = response;
     }
 }
