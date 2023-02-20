@@ -10,27 +10,28 @@ export class NavigationResponse {
 
     private totalTime: number;
 
-    private origin: ILocation;
+    private origin: ILocation | null;
 
     private wayPoints: ILocation[];
 
-    private finalDestination: ILocation;
+    private finalDestination: ILocation | null;
 
     constructor(locations: ILocation[]) {
-        this.locations = locations;
+        this.locations = [];
+        this.origin = null;
+        this.finalDestination = null;
+        this.wayPoints = [];
+        this.setLocations(locations);
         this.totalDistance = 0;
         this.totalTime = 0;
-        this.wayPoints = [];
         this.pathInfo = [];
-        this.origin = this.locations[0];
-        this.finalDestination = this.locations[this.locations.length - 1];
-        this.wayPoints = this.locations.filter((location) => location.destination);
     }
 
     setLocations(locations: ILocation[]) {
         this.locations = locations;
-        this.origin = this.locations[0];
-        this.finalDestination = this.locations[this.locations.length - 1];
+        this.origin = locations.length > 0 ? this.locations[0] : null;
+        this.finalDestination = locations.length > 0 ? this.locations[this.locations.length - 1] : null;
+
         this.wayPoints = this.locations.filter((location) => location.destination);
     }
 
@@ -51,11 +52,11 @@ export class NavigationResponse {
         return this.pathInfo;
     }
 
-    getOrigin(): ILocation {
+    getOrigin(): ILocation | null {
         return this.origin;
     }
 
-    getFinalDestination(): ILocation {
+    getFinalDestination(): ILocation | null {
         return this.finalDestination;
     }
 

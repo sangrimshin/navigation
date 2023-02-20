@@ -6,6 +6,8 @@ import { DoubleFloorElevatorTypeNoWaypoints } from './doubleFloorElevatorTypeNoW
 import { SingleFloorRecommendationType2Waypoints } from './singleFloorSingleTypeWaypoints';
 import { DoubleFloorStairsType2Waypoints } from './doubleFloorStairsType2Waypoints';
 import { DoubleFloorElevatorType2Waypoints } from './doubleFloorElevatorType2Waypoints';
+import { DoubleFloorMultiType2Waypoints } from './doubleFloorMultiType2Waypoints';
+import { DoubleFloorEscalatorTypeNoWaypoints } from './doubleFloorEscalatorTypeNoWaypoints';
 
 const request = require('supertest');
 const dotenv = require('dotenv');
@@ -30,13 +32,6 @@ describe('pathAPI Test', () => {
         expect(original).toStrictEqual(SingleFloorNoTypeNoWaypoints); // <- success
     });
 
-    test('Double Floor Elevator Type No waypoints', async () => {
-        const original = await getPathRequest(navigationOption.doubleFloorElevatorTypeNoWaypoints);
-        const result = diff(DoubleFloorElevatorTypeNoWaypoints, original);
-        console.log(result);
-        expect(original).toStrictEqual(DoubleFloorElevatorTypeNoWaypoints); // <- success
-    });
-
     test('Single Floor Recommended Type with 2 Waypoints ', async () => {
         const original = await getPathRequest(navigationOption.singleFloorRecommendationType2Waypoints);
         // console.log(JSON.stringify(original, null, 2));
@@ -44,6 +39,13 @@ describe('pathAPI Test', () => {
         console.log(result);
 
         expect(original).toStrictEqual(SingleFloorRecommendationType2Waypoints); // <- success
+    });
+
+    test('Double Floor Elevator Type No waypoints', async () => {
+        const original = await getPathRequest(navigationOption.doubleFloorElevatorTypeNoWaypoints);
+        const result = diff(DoubleFloorElevatorTypeNoWaypoints, original);
+        console.log(result);
+        expect(original).toStrictEqual(DoubleFloorElevatorTypeNoWaypoints); // <- success
     });
 
     test('Double Floor Stairs Type with 2 Waypoints ', async () => {
@@ -64,33 +66,23 @@ describe('pathAPI Test', () => {
         expect(original).toStrictEqual(DoubleFloorElevatorType2Waypoints); // <- success
     });
 
-    // test('Single Floor multi Type', async () => {
-    //     const original = await getPathRequest(navigationOption.singleFloorMultiType);
-    //     // console.log(original);
-    //     expect(original).toStrictEqual(resultSingleFloorMultiType); // <- success
+    test('Double Floor Escalator Type with No Waypoints ', async () => {
+        const original = await getPathRequest(navigationOption.doubleFloorEscalatorTypeNoWaypoints);
+        // console.log(JSON.stringify(original, null, 2));
+        const result = diff(DoubleFloorEscalatorTypeNoWaypoints, original);
+        console.log(result);
+
+        expect(original).toStrictEqual(DoubleFloorEscalatorTypeNoWaypoints); // <- success
+    });
+
+    // test('Double Floor Multi Type with 2 Waypoints ', async () => {
+    //     const original = await getPathRequest(navigationOption.doubleFloorMultiType2Waypoints);
+    //     // console.log(JSON.stringify(original, null, 2));
+    //     const result = diff(DoubleFloorMultiType2Waypoints, original);
+    //     console.log(result);
+
+    //     expect(original).toStrictEqual(DoubleFloorMultiType2Waypoints); // <- success
     // });
-
-    //     test('Double Floor single Type ', async () => {
-    //         const original = await getPathRequest(navigationOption.dobuleFloorSingleType);
-    //         // console.log(JSON.stringify(original, null, 2));
-    //         const result = diff(original, resultDoubleFloorSingleType);
-
-    //         // print diff
-    //         // console.log(result);
-    //         expect(original).toStrictEqual(resultDoubleFloorSingleType); // <- success
-    //     });
-
-    //     test('Double Floor stairs Type ', async () => {
-    //         const original = await getPathRequest(navigationOption.dobuleFloorStairsType);
-    //         // console.log(JSON.stringify(original, null, 2));
-    //         expect(original).toStrictEqual(resultDoubleFloorStairsType); // <- success
-    //     });
-
-    //     test('Single Floor recommendation type 2 waypoints ', async () => {
-    //         const original = await getPathRequest(navigationOption.singleFloor);
-    //         // console.log(JSON.stringify(original, null, 2));
-    //         expect(original).toStrictEqual(singleFloor); // <- success
-    //     });
 });
 
 // describe('Test the root path', () => {

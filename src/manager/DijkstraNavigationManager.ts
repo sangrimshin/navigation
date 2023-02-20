@@ -27,15 +27,20 @@ export class DijkstraNavigationManager extends NavigationManager {
      * @private
      */
     private _getPath(origin: string, destination: string): NavigationResponse {
-        const nodeIds = new dijkstra.find_path(this.graph, origin, destination);
-        const locations: ILocation[] = this._convertRouteToLocations(nodeIds);
-        locations.forEach((location, idx) => {
-            if (location.transCode && location.floorId && location.floorId !== locations[idx + 1].floorId) {
-                locations[idx + 1].distance = 0;
-            }
-        });
+        try {
+            const nodeIds = new dijkstra.find_path(this.graph, origin, destination);
+            const locations: ILocation[] = this._convertRouteToLocations(nodeIds);
+            locations.forEach((location, idx) => {
+                if (location.transCode && location.floorId && location.floorId !== locations[idx + 1].floorId) {
+                    locations[idx + 1].distance = 0;
+                }
+            });
 
-        return new NavigationResponse(locations);
+            return new NavigationResponse(locations);
+        } catch (error) {
+            console.log('경로를 찾지 못하였습니다.');
+            return new NavigationResponse([]);
+        }
     }
 
     /**
@@ -199,11 +204,17 @@ export class DijkstraNavigationManager extends NavigationManager {
                     });
 
                     if (i === 0) {
-                        minDistanceResponse.getOrigin().poiId = origin.poiId;
-                        routes.push(minDistanceResponse.getOrigin());
+                        const newOrigin = minDistanceResponse.getOrigin();
+                        if (newOrigin) {
+                            newOrigin.poiId = origin.poiId;
+                            routes.push(newOrigin);
+                        }
                     }
-                    minDistanceResponse.getFinalDestination().poiId = destination.poiId;
-                    routes.push(minDistanceResponse.getFinalDestination());
+                    const newFinalDest = minDistanceResponse.getFinalDestination();
+                    if (newFinalDest) {
+                        newFinalDest.poiId = destination.poiId;
+                        routes.push(newFinalDest);
+                    }
                 }
             }
         }
