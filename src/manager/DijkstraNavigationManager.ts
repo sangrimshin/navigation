@@ -85,26 +85,30 @@ export class DijkstraNavigationManager extends NavigationManager {
 
         let navigationResponse: NavigationResponse = new NavigationResponse([]);
 
-        optimalPath.forEach((waypoint, idx) => {
-            if (idx < locations.length - 1) {
-                const origin = optimalPath[idx];
-                const destination = optimalPath[idx + 1];
-                const response: NavigationResponse = this._getPath(origin.nodeId, destination.nodeId);
-                response.getLocations().forEach((resLocation, myIdx) => {
-                    if (!resLocation.poiId) {
-                        if (myIdx === 0) {
-                            resLocation.poiId = origin.poiId;
-                        }
+        try {
+            optimalPath.forEach((waypoint, idx) => {
+                if (idx < locations.length - 1) {
+                    const origin = optimalPath[idx];
+                    const destination = optimalPath[idx + 1];
+                    const response: NavigationResponse = this._getPath(origin.nodeId, destination.nodeId);
+                    response.getLocations().forEach((resLocation, myIdx) => {
+                        if (!resLocation.poiId) {
+                            if (myIdx === 0) {
+                                resLocation.poiId = origin.poiId;
+                            }
 
-                        if (myIdx === response.getLocations().length - 1) {
-                            resLocation.poiId = destination.poiId;
+                            if (myIdx === response.getLocations().length - 1) {
+                                resLocation.poiId = destination.poiId;
+                            }
                         }
-                    }
-                });
+                    });
 
-                navigationResponse = this._mergeResponse(navigationResponse, response);
-            }
-        });
+                    navigationResponse = this._mergeResponse(navigationResponse, response);
+                }
+            });
+        } catch (error) {
+            navigationResponse = new NavigationResponse([]);
+        }
 
         let pathInfo = super.simplify(navigationResponse.getLocations());
 
@@ -197,6 +201,7 @@ export class DijkstraNavigationManager extends NavigationManager {
                     nodeArrayFromOrigin!.forEach((fromOrigin) => {
                         nodeArrayFromDestination!.forEach((fromDestination) => {
                             const res: NavigationResponse = this._getPath(fromOrigin.id, fromDestination.id);
+                            if (res.getLocations().length === 0) return;
                             if (minDistanceResponse.getTotalDistance() === 0 || res.getTotalDistance() < minDistanceResponse.getTotalDistance()) {
                                 minDistanceResponse = res;
                             }

@@ -10,7 +10,6 @@ export const navigationOption = {
                 floorId: 'FL-t4vqgyek3jnb8146', // 11층
             },
         ],
-        computingTypeList: ['recommendation'],
     },
     singleFloorRecommendationType2Waypoints: {
         computingTypeList: ['RECOMMENDATION'],
@@ -33,6 +32,28 @@ export const navigationOption = {
             },
         ],
     },
+    singleFloorEscalatorType2Waypoints: {
+        computingTypeList: ['ESCALATOR'],
+        locations: [
+            {
+                poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+            {
+                poiId: 'PO-NMvw3E0pe1690', // 플랫폼사업부 회의실 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+            {
+                poiId: 'PO-WgCv1-qBo8094', // 사업전략부 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+            {
+                poiId: 'PO-M02DvTVjp8449', // 회의실1 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+        ],
+    },
+
     doubleFloorElevatorTypeNoWaypoints: {
         locations: [
             {
@@ -101,8 +122,25 @@ export const navigationOption = {
             },
         ],
     },
-    doubleFloorMultiType2Waypoints: {
-        computingTypeList: ['ESCALATOR', 'STAIRS', 'ELEVATOR'],
+    doubleFloorEscalatorType1Waypoints: {
+        computingTypeList: ['ESCALATOR'],
+        locations: [
+            {
+                poiId: 'PO-bG8eepPeB2502', // 여자화장실 (2층)
+                floorId: 'FL-vf3q07spbmsw8132',
+            },
+            {
+                poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+            {
+                poiId: 'PO-M02DvTVjp8449', // 회의실1 (11층)
+                floorId: 'FL-t4vqgyek3jnb8146',
+            },
+        ],
+    },
+    doubleFloorEscalatorType2Waypoints: {
+        computingTypeList: ['ESCALATOR'],
         locations: [
             {
                 poiId: 'PO-4JvSQCWHC2270', // 남자화장실 (11층)

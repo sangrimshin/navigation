@@ -1,4 +1,4 @@
-export const DoubleFloorEscalatorTypeNoWaypoints = {
+export const NoResult = {
     code: '00',
     message: '',
     payload: {
