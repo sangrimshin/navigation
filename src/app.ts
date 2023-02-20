@@ -20,27 +20,6 @@ app.options('*', cors());
 
 app.use(express.json()); // use() 를 통해 연결 시킨다! (사용하기 위해)
 
-app.get('/', (req: Request, res: Response) => {
-    //   console.log(req);
-    console.log('received get command ');
-    res.send('Hello JS World!');
-});
-
-// async function dataTest() {
-//     const original = await getPathRequest();
-//     console.log(original);
-// }
-
-// dataTest();
-
-app.get('/api/user/:id', (req, res) => {
-    const { id } = req.params;
-    //   console.log(req);
-    console.log(req.params);
-    console.log(id);
-    res.json({ id });
-});
-
 async function getMapAxios(token: string) {
     const response = await axios.get('https://api.dabeeomaps.com/v2/map?t=JS', {
         headers: { 'Content-Type': 'application/json', 'Authorization': token },
